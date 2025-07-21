@@ -122,7 +122,6 @@ def main():
 #=============================================================================================================================
 while True:
     print("=========================================================================================================")
-    print("                                                                                                          People's Bank                                                                                                                     ")
     print("\n1.Login\n2.Create Account\n3.Exit")
     opt=int(input("Enter Any Option to Continue:\n--"))
     if opt==1:
@@ -142,6 +141,3 @@ while True:
         break
     else:
         print("--Invalid Input--")
-
-    
-                 
