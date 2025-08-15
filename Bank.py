@@ -61,6 +61,15 @@ class Bank:
             return "--Invalid amount"
         return "--User Name Not found!!"
 
+
+    def login(self,name):
+        user=self.df[(self.df['Name']==name)]
+        if not user.empty:
+            self.user_index=user.index[0]
+            return True
+        return False
+        
+        
     def save(self):
         self.df.to_excel(self.file,index=False)
         
@@ -70,17 +79,25 @@ def main():
     attempt=3
     while attempt>0:
         name=input("Enter the Account Holder Name:\n--")
-        try:
-            password=int(pwinput.pwinput(prompt="Enter your 4 digit pin:\n--",mask='*'))
-        except Exception:
-            print("Enter Valid Pin!!")
-            continue
+        if obj.login(name):
+            try:
+                password=int(pwinput.pwinput(prompt="Enter your 4 digit pin:\n--",mask='*'))
+            except Exception:
+                print("Enter Valid Pin!!")
+                continue
+        else:
+            print("--User Name Not found!!")
+            break
 
 
         if obj.verify(name,password):
             print("--Access Granted!!")
             while True:
-                op=int(input("1.Deposit Amt\n2.Withdraw Amt\n3.Check balance\n4.Account Transfer\n5.Exit\n--"))
+                try:
+                    op=int(input("1.Deposit Amt\n2.Withdraw Amt\n3.Account Transfer\n4.Check Balance\n5.Exit\n--"))
+                except Exception:
+                    print("--Invalid Option--")
+                    continue
                 if(op==1):
                     try:
                         amt=int(input("Enter the Amount:\n--"))
@@ -96,8 +113,6 @@ def main():
                         print("--Enter Valid amount")
                         continue
                 elif(op==3):
-                    print(obj.display())
-                elif(op==4):
                     name=input("Enter the Acct.holder Name to Transfer:\n--")
                     try:
                         amount=int(input("Enter the Amount:\n--"))
@@ -105,6 +120,8 @@ def main():
                     except Exception:
                         print("--Invalid Input")
                         continue
+                elif(op==4):
+                    print(obj.display())
                 elif(op==5):
                     print("--Thank You!! Visit Again<<<<")
                     attempt=0
@@ -123,7 +140,10 @@ def main():
 while True:
     print("=========================================================================================================")
     print("\n1.Login\n2.Create Account\n3.Exit")
-    opt=int(input("Enter Any Option to Continue:\n--"))
+    try:
+        opt=int(input("Enter Any Option to Continue:\n--"))
+    except Exception:
+        print("--Invalid input--")
     if opt==1:
         main()
     elif opt==2:
@@ -141,3 +161,6 @@ while True:
         break
     else:
         print("--Invalid Input--")
+
+    
+                 
